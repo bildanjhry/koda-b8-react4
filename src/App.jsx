@@ -1,9 +1,17 @@
 import useData from "./hooks/useData"
 import filterData from "./lib/filter"
 
+/**
+ * @returns {JSX.Element}
+ * returning JSX element
+ */
 function App() {
   const [data, setData] = useData()
 
+  /**
+   * @param {React.FormEvent<HTMLFormElement>} e
+   * take Html Element as a parameter
+   */
   function handleSearch(e){ 
     e.preventDefault()
     const name = new FormData(e.target)
@@ -16,14 +24,14 @@ function App() {
   return (
     <div className="w-full min-h-screen pb-16 pt-2 flex flex-col items-center text-slate-600">
       <form 
-      className="w-[90%] flex h-[6rem] py-5"
+      className="w-[90%] flex h-24 py-5"
       onSubmit={(e) => handleSearch(e)}
       action="">
         <input 
         className="w-[85%] h-full bg-(--content-input-bg) rounded-l-xl px-4"
         type="search" name="search" id="search" />
         <button
-        className="w-[15%] text-sm h-full bg-(--content-btn-bg) rounded-r-xl text-black 
+        className="w-[15%] text-sm h-full bg-(--content-btn-bg) rounded-r-xl
         text-white cursor-pointer"
         type="submit"
         >Search</button>

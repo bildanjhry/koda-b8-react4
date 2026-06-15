@@ -1,4 +1,5 @@
 /**
+ * Filtering data by name and returning the matches contact person
  * 
  * @param {Array[Object]} data
  * Array of contact list 
