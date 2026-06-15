@@ -1,16 +1,46 @@
-# React + Vite
+# Program Filter Data Contact
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Program ini melakukan filter data sesuai darin nama yang diimputkan ke search dan akan menampilkan hasilnya. Lalu untuk mendokumentasikannya, program ini menggunakaan JSDoc.
 
-Currently, two official plugins are available:
+Tech Stacks:
+- React Js v19.x.x
+- tailwindCss v4.x.x
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Custom Hook
 
-## React Compiler
+```jsx
+export default function useData(){
+  const [data, setData] = useState([])
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+  useEffect(() => {
+		async function getData(count = 3){
+			try{
+				const res = await fetch("https://jsonplaceholder.typicode.com/users")
+				const data = await res.json()
+				setData(data)
+			} catch(err){
+				// will retry 3 times if error happend
+				if (count >= 1) getData(count - 1)
+				return console.error(err.message)
+			}
+		}
+		getData()
+  },[setData])
 
-## Expanding the ESLint configuration
+	return ([data, setData])
+}
+```
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+
+### Handle Search
+
+```jsx
+function handleSearch(e){ 
+  e.preventDefault()
+  const name = new FormData(e.target)
+  if(name) {
+    const result = filterData(data, name.get("search").toLowerCase())
+    setData(result)
+  }
+}
+```
